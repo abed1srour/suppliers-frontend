@@ -13,16 +13,11 @@ function DashboardContent() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const { user, loading: authLoading, logout } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (!authLoading && !user) {
-      router.push('/login');
-      return;
-    }
-    
     // Check for category in URL params
     const categoryParam = searchParams.get('category');
     if (categoryParam) {
@@ -30,7 +25,7 @@ function DashboardContent() {
     }
     
     fetchProducts();
-  }, [user, authLoading, router, searchParams]);
+  }, [searchParams]);
 
   const fetchProducts = async () => {
     try {
@@ -50,21 +45,14 @@ function DashboardContent() {
     ? products 
     : products.filter(product => product.category?.name === selectedCategory);
 
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#0a0f1c] flex items-center justify-center">
-        <div className="text-white text-xl">Loading...</div>
-      </div>
-    );
-  }
-
-  if (!user) {
-    return null; // Will redirect to login
-  }
+  const handleLogout = () => {
+    // Handle logout logic here if needed
+    router.push('/login');
+  };
 
   return (
     <div className="min-h-screen bg-[#0a0f1c]">
-      {/* Header with Admin Link */}
+      {/* Header with Admin Link - only show if user is admin */}
       {user?.role === 'admin' && (
         <header className="bg-[#1a1f2e] border-b border-blue-900 p-4">
           <div className="flex justify-between items-center">
@@ -78,7 +66,7 @@ function DashboardContent() {
                 <span>Admin Panel</span>
               </Link>
               <button
-                onClick={logout}
+                onClick={handleLogout}
                 className="flex items-center space-x-2 bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition"
               >
                 <LogOut size={16} />
