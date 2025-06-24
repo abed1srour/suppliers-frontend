@@ -146,6 +146,12 @@ export default function EditProducts() {
           <p className="text-gray-400">No products found</p>
         </div>
       )}
+
+      {/* Credits/Footer */}
+      <footer className="mt-12 text-center text-xs text-gray-400 w-full">
+        Credits: Website designed by Abedallatif Srour.<br />
+        WhatsApp: <a href="https://wa.me/96176675348" className="underline hover:text-green-400">+961 76 675 348</a>
+      </footer>
     </div>
   );
 }

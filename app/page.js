@@ -103,8 +103,8 @@ function DashboardContent() {
             <p className="text-gray-500">Add some products to get started</p>
           </div>
         ) : (
-          <div className="mx-auto w-full max-w-7xl px-2 sm:px-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="w-full flex justify-center">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full max-w-md sm:max-w-2xl md:max-w-4xl lg:max-w-7xl mx-auto px-2">
               {filteredProducts.map((product) => (
                 <ProductCard key={product._id} product={product} />
               ))}
@@ -112,8 +112,8 @@ function DashboardContent() {
           </div>
         )}
         {/* Credits/Footer */}
-        <footer className="mt-12 text-center text-xs text-gray-400">
-          Credits: Website designed by Abedallatif Srour. <br />
+        <footer className="mt-12 text-center text-xs text-gray-400 w-full">
+          Credits: Website designed by Abedallatif Srour.<br />
           WhatsApp: <a href="https://wa.me/96176675348" className="underline hover:text-green-400">+961 76 675 348</a>
         </footer>
       </main>
