@@ -21,6 +21,14 @@ export const metadata = {
   icons: {
     icon: "/logo.png",
   },
+  images: {
+    remotePatterns: [
+      { protocol: 'https', hostname: '**' },
+      { protocol: 'http', hostname: '**' },
+      { protocol: '*', hostname: '**' },
+    ],
+    formats: ['image/webp', 'image/avif'],
+  },
 };
 
 export default function RootLayout({ children }) {

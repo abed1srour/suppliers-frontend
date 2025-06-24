@@ -8,7 +8,11 @@ const nextConfig = {
       },
       {
         protocol: 'http',
-        hostname: '**', // Allow all HTTP domains (optional)
+        hostname: '**', // Allow all HTTP domains
+      },
+      {
+        protocol: '*',
+        hostname: '**', // Allow all protocols and all domains
       },
     ],
     formats: ['image/webp', 'image/avif'],
