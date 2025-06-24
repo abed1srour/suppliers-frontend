@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { apiService } from '../lib/api';
 import { Package, Save, Image as ImageIcon } from 'lucide-react';
+import Image from 'next/image';
 
 export default function ProductForm({ 
   initialData = null, 
@@ -217,14 +218,17 @@ export default function ProductForm({
           <div className="bg-white border border-blue-800 rounded-lg p-4 min-h-[200px] sm:min-h-[300px] flex items-center justify-center">
             {imagePreview ? (
               <div className="w-full">
-                <img
+                <Image
                   src={imagePreview}
                   alt="Product preview"
+                  width={400}
+                  height={400}
                   className="w-full h-auto max-h-[300px] sm:max-h-[400px] object-contain rounded-lg"
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'flex';
                   }}
+                  loading="lazy"
                 />
                 <div className="hidden flex-col items-center justify-center text-gray-400 mt-4">
                   <ImageIcon size={48} />

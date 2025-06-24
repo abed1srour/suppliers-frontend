@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../components/AuthProvider";
 import ClientLayout from "../components/ClientLayout";
+import PerformanceMonitor from "../components/PerformanceMonitor";
 import Head from "next/head";
 
 const geistSans = Geist({
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <AuthProvider>
           <ClientLayout>{children}</ClientLayout>
         </AuthProvider>
+        <PerformanceMonitor />
       </body>
     </html>
   );

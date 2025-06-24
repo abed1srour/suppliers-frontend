@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../../components/AuthProvider';
 import { useRouter } from 'next/navigation';
 import { Plus, Edit, Trash2, Eye, Search } from 'lucide-react';
+import Image from 'next/image';
 
 export default function ProductsManagement() {
   const [products, setProducts] = useState([]);
@@ -203,12 +204,19 @@ export default function ProductsManagement() {
           {filteredProducts.map(product => (
             <div key={product._id} className="bg-[#181e2a] p-4 rounded-xl border border-blue-900 flex flex-col items-center">
               {product.image && (
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-24 h-24 object-contain rounded-lg mb-2"
-                  style={{ background: "#fff" }}
-                />
+                <div className="relative w-24 h-24 mb-2 bg-white rounded-lg overflow-hidden">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={96}
+                    height={96}
+                    className="object-contain w-full h-full"
+                    loading="lazy"
+                    onError={(e) => {
+                      e.target.style.display = 'none';
+                    }}
+                  />
+                </div>
               )}
               <h3 className="text-base font-semibold text-white text-center truncate w-full">{product.name}</h3>
               <p className="text-blue-300 font-bold text-lg">${product.price}</p>

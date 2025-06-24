@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
+import Image from 'next/image';
 
 export default function PublicSidebar({ selectedCategory, onCategoryChange }) {
   const pathname = usePathname();
@@ -97,7 +98,14 @@ export default function PublicSidebar({ selectedCategory, onCategoryChange }) {
             <div className="flex justify-between items-center p-4 border-b border-blue-900">
               <div className="flex items-center gap-2">
                 <div className="h-9 w-9 flex items-center justify-center">
-                  <img src="/logo.png" alt="Logo" className="h-9 w-9 object-contain" />
+                  <Image 
+                    src="/logo.png" 
+                    alt="Logo" 
+                    width={36}
+                    height={36}
+                    className="h-9 w-9 object-contain"
+                    priority
+                  />
                 </div>
                 <div className="flex flex-col">
                   <span className="text-xs text-blue-300 font-semibold">Last Update</span>

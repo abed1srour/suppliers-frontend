@@ -1,8 +1,10 @@
 import React from "react";
+import OptimizedImage from "./OptimizedImage";
 
 export default function ProductCard({ product }) {
   // product = { name, description, image, price, category, quantity }
   const isLowStock = typeof product.quantity === 'number' && product.quantity <= 2;
+  
   return (
     <div className="relative flex w-full max-w-xs flex-col overflow-hidden rounded-2xl border border-blue-900 bg-gradient-to-br from-[#181e2a] to-[#232946] shadow-xl transition-transform hover:scale-105 hover:shadow-2xl">
       {/* Product Image */}
@@ -13,14 +15,20 @@ export default function ProductCard({ product }) {
             {typeof product.category === "object" ? product.category.name : product.category}
           </span>
         )}
-        {product.image ? (
-          <img
-            className="object-contain w-full h-full"
+        
+        {product.image && (
+          <OptimizedImage
             src={product.image}
             alt={product.name}
+            width={224}
+            height={224}
+            className="object-contain w-full h-full"
+            loading="lazy"
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
-        ) : null}
+        )}
       </div>
+      
       <div className="mt-4 px-4 pb-4 flex flex-col flex-1">
         {/* Product Name */}
         <h5 className="text-lg font-extrabold tracking-tight text-white mb-1">{product.name}</h5>
