@@ -15,9 +15,11 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Solar Products - Supplier Portal",
-  description: "Solar power product display and management system",
-
+  title: "Srour Solar Power",
+  description: "Supplier Portal for Solar Products",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({ children }) {
