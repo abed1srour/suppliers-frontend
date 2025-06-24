@@ -8,15 +8,7 @@ const nextConfig = {
       },
       {
         protocol: 'http',
-        hostname: '**', // Allow all HTTP domains
-      },
-      {
-        protocol: '*',
-        hostname: '**', // Allow all protocols and all domains
-      },
-      {
-        protocol: 'https',
-        hostname: 'www.felicitysolar.com', // Explicitly allow felicitysolar.com
+        hostname: '**', // Allow all HTTP domains (optional)
       },
     ],
     formats: ['image/webp', 'image/avif'],
