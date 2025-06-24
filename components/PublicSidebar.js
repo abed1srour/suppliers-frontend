@@ -1,8 +1,7 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useState, useEffect } from 'react';
+import { apiService } from '../lib/api';
 import {
   Menu,
   X,
@@ -13,53 +12,50 @@ import {
   ChevronRight,
   LogIn,
 } from 'lucide-react';
+import Link from 'next/link';
+import { usePathname, useRouter } from 'next/navigation';
 
-const categories = [
-  { name: 'Panel', path: '/?category=Panel', icon: Sun },
-  { name: 'Inverter', path: '/?category=Inverter', icon: Zap },
-  { name: 'Battery', path: '/?category=Battery', icon: Battery },
-];
-
-export default function Sidebar({ selected, setSelected, isSidebarOpen, setIsSidebarOpen }) {
+export default function PublicSidebar({ selectedCategory, onCategoryChange }) {
   const pathname = usePathname();
   const router = useRouter();
+  const [categories, setCategories] = useState([]);
   const [lastUpdate, setLastUpdate] = useState(null);
 
-  // Set default to Inverter on mount if not selected
   useEffect(() => {
-    if (!selected && setSelected) {
-      setSelected('Inverter');
-      router.replace('/?category=Inverter');
-    }
-  }, []);
-
-  useEffect(() => {
-    async function fetchLastUpdate() {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/last-update`);
-        const data = await res.json();
-        setLastUpdate(data.updatedAt);
-      } catch (e) {
-        setLastUpdate(null);
-      }
-    }
+    fetchCategories();
     fetchLastUpdate();
   }, []);
 
-  const handleCategorySelect = (categoryName, path) => {
-    setSelected && setSelected(categoryName);
-    router.push(path);
-    setIsSidebarOpen(false);
+  const fetchCategories = async () => {
+    try {
+      const data = await apiService.categories.getAll();
+      setCategories(data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
   };
 
-  const showHamburger = !isSidebarOpen;
+  const fetchLastUpdate = async () => {
+    try {
+      const data = await apiService.products.getLastUpdate();
+      setLastUpdate(data.updatedAt);
+    } catch (error) {
+      console.error('Error fetching last update:', error);
+    }
+  };
 
-  // Format date as 'YYYY-MM-DD HH:mm'
-  function formatDate(dateStr) {
+  const formatDate = (dateStr) => {
     if (!dateStr) return 'N/A';
     const d = new Date(dateStr);
     return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
-  }
+  };
+
+  const handleCategorySelect = (categoryName, path) => {
+    onCategoryChange(categoryName);
+    router.push(path);
+  };
+
+  const showHamburger = !isSidebarOpen;
 
   // Sidebar classes: fixed and h-screen always on desktop, only when open on mobile
   const sidebarClass = `
@@ -124,22 +120,29 @@ export default function Sidebar({ selected, setSelected, isSidebarOpen, setIsSid
               <div className="px-3 mb-4 mt-6">
                 <h3 className="text-blue-400 text-xs font-semibold uppercase px-3 mb-2 tracking-wide">Categories</h3>
                 <nav className="space-y-1">
-                  {categories.map((cat) => {
-                    const isActive = selected === cat.name;
-                    const Icon = cat.icon;
-                    return (
-                      <button
-                        key={cat.name}
-                        onClick={() => handleCategorySelect(cat.name, cat.path)}
-                        className={`w-full flex items-center gap-3 text-sm font-medium px-3 py-2.5 rounded-lg transition
-                          ${isActive ? 'bg-blue-700 text-white border-l-4 border-blue-400 shadow-lg' : 'text-blue-200 hover:bg-blue-950 hover:text-white'}`}
-                      >
-                        <Icon size={18} className={isActive ? 'text-white' : 'text-blue-400'} />
-                        <span>{cat.name}</span>
-                        {isActive && <ChevronRight size={16} className="ml-auto" />}
-                      </button>
-                    );
-                  })}
+                  <button
+                    onClick={() => onCategoryChange('All')}
+                    className={`w-full text-left px-3 py-2 rounded-lg transition ${
+                      selectedCategory === 'All'
+                        ? 'bg-blue-600 text-white'
+                        : 'text-gray-300 hover:bg-blue-600/20 hover:text-white'
+                    }`}
+                  >
+                    All Products
+                  </button>
+                  {categories.map((category) => (
+                    <button
+                      key={category._id}
+                      onClick={() => onCategoryChange(category.name)}
+                      className={`w-full text-left px-3 py-2 rounded-lg transition ${
+                        selectedCategory === category.name
+                          ? 'bg-blue-600 text-white'
+                          : 'text-gray-300 hover:bg-blue-600/20 hover:text-white'
+                      }`}
+                    >
+                      {category.name}
+                    </button>
+                  ))}
                 </nav>
               </div>
             </div>

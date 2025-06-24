@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { apiService, getApiConfig } from '../lib/api';
 
 const AuthContext = createContext();
 
@@ -21,27 +22,15 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (username, password) => {
-    // Use NEXT_PUBLIC_API_URL environment variable
-    const loginUrl = `${process.env.NEXT_PUBLIC_API_URL}/api/admin/login`;
-    
-    console.log('🔍 API URL from env:', process.env.NEXT_PUBLIC_API_URL);
-    console.log(' Using login URL:', loginUrl);
+    const apiConfig = getApiConfig();
+    console.log('🔍 API URL from env:', apiConfig.baseURL);
+    console.log(' Using login URL:', apiConfig.baseURL + apiConfig.endpoints.admin.login);
     
     try {
-      const response = await fetch(loginUrl, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      console.log(' Response status:', response.status);
-
-      const data = await response.json();
+      const data = await apiService.admin.login({ username, password });
       console.log('📥 Response data:', data);
 
-      if (response.ok && data.success) {
+      if (data.success) {
         localStorage.setItem('authToken', data.token);
         setUser({ username: data.admin.username });
         return { success: true };

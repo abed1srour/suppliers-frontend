@@ -7,6 +7,7 @@ import { useAuth } from '../components/AuthProvider';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Settings, LogOut } from 'lucide-react';
+import { apiService } from '../lib/api';
 
 function DashboardContent() {
   const [products, setProducts] = useState([]);
@@ -29,11 +30,8 @@ function DashboardContent() {
 
   const fetchProducts = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products`);
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
-      }
+      const data = await apiService.products.getAll();
+      setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
     } finally {

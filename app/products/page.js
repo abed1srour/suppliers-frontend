@@ -58,7 +58,7 @@ export default function ProductsManagement() {
 
   const fetchCategories = async () => {
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/categories`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/categories`);
       if (response.ok) {
         const data = await response.json();
         setCategories(data);
@@ -84,8 +84,8 @@ export default function ProductsManagement() {
     
     try {
       const url = editingProduct 
-        ? `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/products/${editingProduct._id}`
-        : `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/products`;
+        ? `${process.env.NEXT_PUBLIC_API_URL}/api/products/${editingProduct._id}`
+        : `${process.env.NEXT_PUBLIC_API_URL}/api/products`;
       
       const response = await fetch(url, {
         method: editingProduct ? 'PUT' : 'POST',
@@ -113,7 +113,7 @@ export default function ProductsManagement() {
     const token = localStorage.getItem('authToken');
     
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001'}/api/products/${productId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`
