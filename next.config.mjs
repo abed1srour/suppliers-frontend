@@ -4,12 +4,14 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**', // Optional: allow all HTTPS domains (remove if you want strict control)
+        hostname: '**',      // Allow all HTTPS domains
+        pathname: '/**',     // Allow all image paths
       },
       {
         protocol: 'https',
-        hostname: 'www.felicitysolar.com', // Explicit allow for Felicity Solar
-      }
+        hostname: 'www.felicitysolar.com',
+        pathname: '/**',     // Explicitly allow all paths from Felicity Solar
+      },
     ],
     formats: ['image/webp', 'image/avif'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
