@@ -80,7 +80,7 @@ function DashboardContent() {
         {/* Products Header */}
         <div className="mb-8">
           <h2 className="text-3xl font-bold text-white mb-2 mt-10">
-            {selectedCategory === 'All' ? 'Solar Products' : `${selectedCategory} Products`}
+            {selectedCategory === 'All' ? 'Srour Solar Power' : `${selectedCategory} Products`}
           </h2>
           <p className="text-blue-300">
             {selectedCategory === 'All' 
@@ -103,12 +103,19 @@ function DashboardContent() {
             <p className="text-gray-500">Add some products to get started</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
+          <div className="mx-auto w-full max-w-7xl px-2 sm:px-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filteredProducts.map((product) => (
+                <ProductCard key={product._id} product={product} />
+              ))}
+            </div>
           </div>
         )}
+        {/* Credits/Footer */}
+        <footer className="mt-12 text-center text-xs text-gray-400">
+          Credits: Website designed by Abedallatif Srour. <br />
+          WhatsApp: <a href="https://wa.me/96176675348" className="underline hover:text-green-400">+961 76 675 348</a>
+        </footer>
       </main>
     </div>
   );
